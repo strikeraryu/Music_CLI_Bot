@@ -224,7 +224,8 @@ class CLI(commands.Cog):
             voice_client.play(scource)
             self.active_servers[server_id]['current playing'] = title
             await channel.send(f'Current playing - {title}')
-          except:
+          except Exception as e:
+            print(e)
             await channel.send(f'Error while playing - {title}')
 
 
