@@ -393,7 +393,11 @@ class CLI(commands.Cog):
     random.shuffle(self.server_queue[ctx.guild.id])
     await ctx.send(f'Queue shuffled')
 
-  
+  @commands.command(hidden=True)
+  async def log_playlist(self, ctx):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'playlists.json')) as p:
+      print(p.read())
+
   @commands.Cog.listener()
   async def on_command_error(self, ctx, error):
     await ctx.send(error)
