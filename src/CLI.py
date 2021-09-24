@@ -277,6 +277,10 @@ class CLI(commands.Cog):
 
     server_id = str(ctx.guild.id)
 
+    if server_id not in playlists:
+      await ctx.send(f'No playlist. Use -create')
+      return
+
     all_songs = tabulate.tabulate([(i, playlist, playlists[server_id][playlist]["created_by"]) for i, playlist in enumerate(playlists[server_id])], headers=['ID', 'Playlist', 'created_by'])
 
     await ctx.send(all_songs)
@@ -353,6 +357,10 @@ class CLI(commands.Cog):
 
     server_id = str(ctx.guild.id)
 
+    if server_id not in playlists or playlist not in playlists[server_id]:
+      await ctx.send(f'No playlist - {playlist}. Use -create')
+      return
+
     all_songs = tabulate.tabulate([(i, title) for i, title in enumerate(playlists[server_id][playlist]["songs"])], headers=['ID', 'Title'])
 
     await ctx.send(f'Playlist - {playlist}   Created by - {playlists[server_id][playlist]["created_by"]} \n'+all_songs)
@@ -364,6 +372,10 @@ class CLI(commands.Cog):
       playlists = json.load(p)
 
     server_id = str(ctx.guild.id)
+
+    if server_id not in playlists or playlist not in playlists[server_id]:
+      await ctx.send(f'No playlist - {playlist}. Use -create')
+      return
 
     await self.join(ctx)
     self.active_servers[ctx.guild.id]['continue'] = True
