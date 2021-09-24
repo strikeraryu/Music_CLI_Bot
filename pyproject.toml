@@ -10,6 +10,8 @@ discord = "^1.7.3"
 youtube_dl = "^2021.6.6"
 youtube-search-python = "^1.4.8"
 PyNaCl = "^1.4.0"
+tabulate = "^0.8.9"
+python-dotenv = "^0.19.0"
 
 [tool.poetry.dev-dependencies]
 
