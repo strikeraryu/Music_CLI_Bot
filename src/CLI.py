@@ -37,7 +37,7 @@ class CLI(commands.Cog):
           'channel': ctx.channel,
           'loop': False,
           'continue': True,
-          'current playing': '',
+          'current_playing': '',
           }
 
     if ctx.guild.id not in self.server_queue:
@@ -129,15 +129,9 @@ class CLI(commands.Cog):
     if ctx.voice_client is None:
       await ctx.send('Bot is not in a voice channel')
       return
-
+    
     ctx.voice_client.stop()
     
-    if len(self.server_queue[ctx.guild.id]) > 0:
-      title = self.server_queue[ctx.guild.id][0]
-      self.server_queue[ctx.guild.id].pop(0)
-      if self.active_servers[ctx.guild.id]['loop']:
-        self.server_queue[ctx.guild.id].append(title)
-
     await ctx.send('Song skipped')
 
 
@@ -160,7 +154,7 @@ class CLI(commands.Cog):
       await ctx.send('Bot is not in a voice channel')
       return
 
-    current = self.active_servers[ctx.guild.id]['current playing']
+    current = self.active_servers[ctx.guild.id]['current_playing']
     self.server_queue[ctx.guild.id].insert(0, current)
     await ctx.send(f'Repeating - {current}')
 
@@ -222,7 +216,7 @@ class CLI(commands.Cog):
             url2 = info['formats'][0]['url']
             scource = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPEG_OPTIONS)
             voice_client.play(scource)
-            self.active_servers[server_id]['current playing'] = title
+            self.active_servers[server_id]['current_playing'] = title
             await channel.send(f'Current playing - {title}')
           except Exception as e:
             print(e)
