@@ -395,15 +395,21 @@ class CLI(commands.Cog):
 
 
   @commands.command(hidden=True)
-  async def log_playlist(self, ctx):
+  async def log_playlists(self, ctx):
     with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'playlists.json')) as p:
       print(p.read())
+  
+  
+  @commands.command(hidden=True)
+  async def load_playlists(self, ctx, *, json_data):
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'playlists.json'), 'w') as p:
+      p.write(json_data)
 
 
   @commands.Cog.listener()
   async def on_command_error(self, ctx, error):
     await ctx.send(error)
-    
+
 
   def setup(client):
     client.add_cog(CLI(client))
